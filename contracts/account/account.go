@@ -30,17 +30,12 @@ func NewUser() *User {
 		log.Fatal(err)
 	}
 
-	addr := common.HexToAddress("0xc6dcbd80a50218ff44481babce8aa757b5413d32")
-
-	privateKey, ok := VerifyPrivateKey(string(data)[:len(string(data))-1], addr)
-	if !ok {
-		log.Fatal("wrong private key")
-	}
+	privateKey, address := GetPriAndAddr(string(data)[:len(string(data))-1])
 
 	return &User{
 		Cli:  client,
 		Pri:  privateKey,
-		Addr: addr,
+		Addr: address,
 	}
 }
 
@@ -107,4 +102,18 @@ func VerifyPrivateKey(pri string, addr common.Address) (*ecdsa.PrivateKey, bool)
 		return private, true
 	}
 	return nil, false
+}
+
+func GetPriAndAddr(pri string) (*ecdsa.PrivateKey, common.Address) {
+	private, err := crypto.HexToECDSA(pri)
+	if err != nil {
+		log.Fatal(err)
+	}
+	publicKey := private.Public()
+	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
+	if !ok {
+		log.Fatal("cannot assert type: publicKey is not of type *ecdsa.PublicKey")
+	}
+
+	return private, crypto.PubkeyToAddress(*publicKeyECDSA)
 }
