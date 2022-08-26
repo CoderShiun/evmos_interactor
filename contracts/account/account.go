@@ -4,14 +4,15 @@ import (
 	"context"
 	"crypto/ecdsa"
 	"fmt"
+	"math"
+	"math/big"
+	"os/exec"
+
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
-	"math"
-	"math/big"
-	"os/exec"
 )
 
 type User struct {
@@ -40,7 +41,6 @@ func NewUser() *User {
 }
 
 func (u *User) GetBalance() *big.Float {
-	//account := common.HexToAddress(address)
 	balance, err := u.Cli.BalanceAt(context.Background(), u.Addr, nil)
 	if err != nil {
 		log.Fatal(err)

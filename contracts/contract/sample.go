@@ -4,9 +4,10 @@ import (
 	"evmosInteractor/contracts/account"
 	"evmosInteractor/contracts/sample"
 	"fmt"
+	"os"
+
 	"github.com/ethereum/go-ethereum/common"
 	log "github.com/sirupsen/logrus"
-	"os"
 )
 
 type Sample struct {

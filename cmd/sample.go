@@ -1,15 +1,13 @@
 package cmd
 
 import (
-	"bufio"
 	"evmosInteractor/contracts/account"
 	"evmosInteractor/contracts/contract"
 	"fmt"
+	"os"
+
 	"github.com/ethereum/go-ethereum/common"
 	log "github.com/sirupsen/logrus"
-	"os"
-	"strings"
-
 	"github.com/spf13/cobra"
 )
 
@@ -29,48 +27,13 @@ var sampleCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		readSampleContractInfo()
 
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Println("version, set_item, get_item")
-		fmt.Println("which function are you going to use?")
-		fmt.Print("-> ")
-		text, err := reader.ReadString('\n')
-		if err != nil {
-			log.Fatal(err)
-		}
-		f := strings.Join(strings.Fields(text), "")
-		text = strings.ToLower(f)
-
-		switch text {
+		switch sampBasic() {
 		case Version:
 			s.GetVersion()
 		case SetItem:
-			reader := bufio.NewReader(os.Stdin)
-			fmt.Println("please give key")
-			fmt.Print("-> ")
-			key, err := reader.ReadString('\n')
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			reader = bufio.NewReader(os.Stdin)
-			fmt.Println("please give value")
-			fmt.Print("-> ")
-			value, err := reader.ReadString('\n')
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			s.SetItem(key, value)
+			s.SetItem(sampSetItem())
 		case GetItem:
-			reader = bufio.NewReader(os.Stdin)
-			fmt.Println("which item are you searching for?")
-			fmt.Print("-> ")
-			key, err := reader.ReadString('\n')
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			s.GetItems(key)
+			s.GetItems(sampGetItem())
 		default:
 			fmt.Println("function is not existed.")
 		}
@@ -85,7 +48,6 @@ func readSampleContractInfo() {
 
 	user := account.NewUser()
 	s = contract.Sample{User: *user}
-
 	s.ContractAddress = common.HexToAddress(string(data))
 	s.ContractInstance = s.GetContractInstance(s.ContractAddress)
 }

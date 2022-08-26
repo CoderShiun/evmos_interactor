@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+
 	homedir "github.com/mitchellh/go-homedir"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"os"
 )
 
 var (
@@ -41,7 +42,6 @@ func init() {
 
 	contractCmd.AddCommand(erc20Cmd)
 	contractCmd.AddCommand(sampleCmd)
-
 }
 
 // initConfig reads in config file and ENV variables if set.

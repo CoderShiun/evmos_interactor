@@ -3,11 +3,15 @@ package utils
 import (
 	"bytes"
 	"errors"
+	"math/big"
 	"os"
 	"os/exec"
 	"os/user"
 	"runtime"
+	"strconv"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func HomePath() (string, error) {
@@ -85,5 +89,13 @@ func homeWindows() (string, error) {
 	}
 
 	return home, nil
+}
 
+func GetBigInt(amount string) *big.Int {
+	newAmount, err := strconv.Atoi(amount)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return big.NewInt(int64(newAmount))
 }

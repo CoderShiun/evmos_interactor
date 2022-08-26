@@ -3,10 +3,12 @@ package contract
 import (
 	"evmosInteractor/contracts/account"
 	"evmosInteractor/contracts/erc20"
+	"evmosInteractor/utils"
 	"fmt"
+	"os"
+
 	"github.com/ethereum/go-ethereum/common"
 	log "github.com/sirupsen/logrus"
-	"os"
 )
 
 type ERC20 struct {
@@ -67,4 +69,31 @@ func (e *ERC20) BalanceOf(addr common.Address) {
 	}
 
 	fmt.Println("erc20 tokens balance: ", balance)
+}
+
+func (e *ERC20) Mint(amount string) {
+	tx, err := e.ContractInstance.Mint(e.User.GetAuth(), utils.GetBigInt(amount))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("mint token successful, tx: ", tx.Hash())
+}
+
+func (e *ERC20) Burn(amount string) {
+	tx, err := e.ContractInstance.Burn(e.User.GetAuth(), utils.GetBigInt(amount))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("burn token successful, tx: ", tx.Hash())
+}
+
+func (e *ERC20) Transfer(addr string, amount string) {
+	tx, err := e.ContractInstance.Transfer(e.User.GetAuth(), common.HexToAddress(addr), utils.GetBigInt(amount))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("send tx successful, tx: ", tx.Hash())
 }

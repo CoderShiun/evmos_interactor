@@ -2,15 +2,16 @@ package keys
 
 import (
 	"crypto/ecdsa"
-	"evmosInteract/utils"
+	"evmosInteractor/utils"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+
 	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
-	"io/ioutil"
-	"log"
-	"os"
 )
 
 func GetNewKey2(data []byte) {
