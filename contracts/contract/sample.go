@@ -25,8 +25,6 @@ func (s *Sample) DeployContract() {
 
 	fmt.Println("successful, deploy contract tx: ", tx.Hash().Hex())
 
-	//time.Sleep(2 * time.Second)
-
 	s.ContractInstance = instance
 	s.ContractAddress = address
 
