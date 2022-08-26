@@ -27,6 +27,8 @@ var sampleCmd = &cobra.Command{
 	Short: "sample contract functions",
 	Long:  `it provides additional functions for the sample smart contract.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		readSampleContractInfo()
+
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Println("version, set_item, get_item")
 		fmt.Println("which function are you going to use?")
@@ -75,9 +77,7 @@ var sampleCmd = &cobra.Command{
 	},
 }
 
-func init() {
-	contractCmd.AddCommand(sampleCmd)
-
+func readSampleContractInfo() {
 	data, err := os.ReadFile("./sample.address")
 	if err != nil || len(data) == 0 {
 		log.Fatal("please deploy sample contract first, ", err)

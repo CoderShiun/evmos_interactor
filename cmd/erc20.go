@@ -26,6 +26,8 @@ var erc20Cmd = &cobra.Command{
 	Short: "erc20 contract functions",
 	Long:  `it provides additional functions for the erc20 smart contract.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		readErc20ContractInfo()
+
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Println("total_supply, decimals, get_balance")
 		fmt.Println("which function are you going to use?")
@@ -60,9 +62,7 @@ var erc20Cmd = &cobra.Command{
 	},
 }
 
-func init() {
-	contractCmd.AddCommand(erc20Cmd)
-
+func readErc20ContractInfo() {
 	data, err := os.ReadFile("./erc20.address")
 	if err != nil || len(data) == 0 {
 		log.Fatal("please deploy erc20 contract first, ", err)

@@ -11,7 +11,3 @@ var contractCmd = &cobra.Command{
 	Long:  `interact with smart contracts`,
 	//Run: func(cmd *cobra.Command, args []string) {},
 }
-
-func init() {
-	rootCmd.AddCommand(contractCmd)
-}

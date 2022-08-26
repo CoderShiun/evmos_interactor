@@ -33,13 +33,15 @@ func Execute() {
 }
 
 func init() {
-	//balance := user.GetBalance()
-	//fmt.Println("balance: ", balance)
-
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.Evmos.yaml)")
 	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Enable debug mode")
+	rootCmd.AddCommand(contractCmd)
+
+	contractCmd.AddCommand(erc20Cmd)
+	contractCmd.AddCommand(sampleCmd)
+
 }
 
 // initConfig reads in config file and ENV variables if set.
