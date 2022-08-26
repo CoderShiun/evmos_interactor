@@ -39,6 +39,9 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.Evmos.yaml)")
 	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Enable debug mode")
 	rootCmd.AddCommand(contractCmd)
+	rootCmd.AddCommand(accountCmd)
+
+	accountCmd.AddCommand(balanceCmd)
 
 	contractCmd.AddCommand(erc20Cmd)
 	contractCmd.AddCommand(sampleCmd)
