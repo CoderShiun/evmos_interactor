@@ -2,7 +2,7 @@
 A CLI tool that is able to deploy smart contracts and call smart contract functions on the evmos chain.
 
 There are two defalut smart contracts, sample.sol and erc20.sol.
-You should first make sure your evmos local test node is running, then deploy the smart contract on evmos chan, 
+You should first make sure your evmos local test network is running, then deploy the smart contract on evmos chan, 
 e.g. $go run main.go contract deploy {contract_name}.
 Can check contract name by $go run main.go contract list.
 
