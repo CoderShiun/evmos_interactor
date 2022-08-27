@@ -14,6 +14,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// HomePath returns the home path of the current os system.
 func HomePath() (string, error) {
 
 	user, err := user.Current()
@@ -32,6 +33,7 @@ func HomePath() (string, error) {
 
 }
 
+// homeUnix returns the $HOME path on Unix systems.
 func homeUnix() (string, error) {
 
 	// First prefer the HOME environmental variable
@@ -68,6 +70,7 @@ func homeUnix() (string, error) {
 
 }
 
+// homeWindows returns the $HOME path on Windows systems.
 func homeWindows() (string, error) {
 
 	drive := os.Getenv("HOMEDRIVE")
@@ -91,6 +94,7 @@ func homeWindows() (string, error) {
 	return home, nil
 }
 
+// GetBigInt returns a big.Int from a string.
 func GetBigInt(amount string) *big.Int {
 	newAmount, err := strconv.Atoi(amount)
 	if err != nil {

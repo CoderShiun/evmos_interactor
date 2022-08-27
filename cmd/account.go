@@ -14,6 +14,7 @@ var accountCmd = &cobra.Command{
 	//Run: func(cmd *cobra.Command, args []string) {},
 }
 
+// balanceCmd returns the evmos token balance of the account
 var balanceCmd = &cobra.Command{
 	Use:   "balance",
 	Short: "show your account balance",

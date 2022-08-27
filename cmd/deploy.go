@@ -14,7 +14,7 @@ const (
 	ERC20  = "erc20"
 )
 
-// deployCmd represents the related deployment command
+// deployCmd deploys the smart contracts.
 var deployCmd = &cobra.Command{
 	Use:   "deploy",
 	Short: "deploy a new contract",
@@ -47,8 +47,4 @@ var deployCmd = &cobra.Command{
 			}
 		}
 	},
-}
-
-func init() {
-	contractCmd.AddCommand(deployCmd)
 }

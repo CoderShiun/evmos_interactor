@@ -16,6 +16,7 @@ type Sample struct {
 	ContractAddress  common.Address
 }
 
+// DeployContract deploys the sample smart contract.
 func (s *Sample) DeployContract() {
 	input := "1.0"
 	address, tx, instance, err := sample.DeployContracts(s.User.GetAuth(), s.User.Cli, input)
@@ -35,6 +36,7 @@ func (s *Sample) DeployContract() {
 	}
 }
 
+// GetContractInstance returns the sample smart contract instance.
 func (s *Sample) GetContractInstance(contractAddress common.Address) *sample.Contracts {
 	instance, err := sample.NewContracts(contractAddress, s.User.Cli)
 	if err != nil {
@@ -44,6 +46,7 @@ func (s *Sample) GetContractInstance(contractAddress common.Address) *sample.Con
 	return instance
 }
 
+// GetVersion returns the version of the sample smart contract.
 func (s *Sample) GetVersion() {
 	v, err := s.ContractInstance.Version(nil)
 	if err != nil {
@@ -53,6 +56,7 @@ func (s *Sample) GetVersion() {
 	fmt.Println(fmt.Sprintf("sample contract version: %v", v))
 }
 
+// SetItem sets the item of the sample smart contract.
 func (s *Sample) SetItem(itemKey, itemValue string) {
 	key := [32]byte{}
 	value := [32]byte{}
@@ -67,6 +71,7 @@ func (s *Sample) SetItem(itemKey, itemValue string) {
 	fmt.Println(fmt.Sprintf("set item tx: %s", tx.Hash().Hex()))
 }
 
+// GetItems returns the value from the sample smart contract item.
 func (s *Sample) GetItems(name string) {
 	key := [32]byte{}
 	copy(key[:], name)

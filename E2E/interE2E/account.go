@@ -6,6 +6,7 @@ import (
 	"os/exec"
 )
 
+// accountBalance gets mykey account balance.
 func accountBalance() {
 	balance, err := exec.Command("evmosInteractor", "account", "balance").Output()
 	if err != nil {

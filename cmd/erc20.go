@@ -22,7 +22,8 @@ const (
 
 var erc20 contract.ERC20
 
-// erc20Cmd represents the erc20 command
+// erc20Cmd represents the erc20 command,
+// it provides additional functions for the erc20 smart contract.
 var erc20Cmd = &cobra.Command{
 	Use:   "erc20",
 	Short: "erc20 contract functions",
@@ -49,6 +50,8 @@ var erc20Cmd = &cobra.Command{
 	},
 }
 
+// readErc20ContractInfo reads the erc20 contract address from the file,
+// and initializes the erc20 contract struct.
 func readErc20ContractInfo() {
 	data, err := os.ReadFile("./erc20.address")
 	if err != nil || len(data) == 0 {

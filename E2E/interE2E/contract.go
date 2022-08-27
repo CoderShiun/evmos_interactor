@@ -18,6 +18,7 @@ var (
 	user *account.User
 )
 
+// contractList get the account list from evmosInteractor.
 func contractList() {
 	byteList, err := exec.Command("evmosInteractor", "contract", "list").Output()
 	if err != nil {
@@ -31,6 +32,7 @@ func contractList() {
 	fmt.Println(string(byteList))
 }
 
+// deploySample deploys the sample contract on evmos chain by using evmosInteractor command.
 func deploySample() {
 	result, err := exec.Command("evmosInteractor", "contract", "deploy", "sample").Output()
 	if err != nil {
@@ -47,6 +49,7 @@ func deploySample() {
 	fmt.Println(string(result))
 }
 
+// getSampleVersion gets the sample smart contract version.
 func getSampleVersion() {
 	time.Sleep(2 * time.Second)
 	user = account.NewUser()
@@ -66,6 +69,7 @@ func getSampleVersion() {
 	s.GetVersion()
 }
 
+// deploySample deploys the erc20 smart contract on evmos chain by using evmosInteractor command.
 func deployErc20() {
 	result, err := exec.Command("evmosInteractor", "contract", "deploy", "erc20").Output()
 	if err != nil {
@@ -82,6 +86,7 @@ func deployErc20() {
 	fmt.Println(string(result))
 }
 
+// erc20Mint mints 1000 erc20 tokens.
 func erc20Mint() {
 	time.Sleep(2 * time.Second)
 
@@ -101,11 +106,13 @@ func erc20Mint() {
 	e.Mint("1000")
 }
 
+// erc20Burn destroys 500 erc20 tokens.
 func erc20Burn() {
 	fmt.Println("burn 500 tokens")
 	e.Burn("500")
 }
 
+// erc20Tx sends 100 erc20 tokens to address 0x808658fcEd5f1a1Bfdd8AB26F8609566b101A6E6.
 func erc20Tx() {
 	fmt.Println("send 100 token to address 0x808658fcEd5f1a1Bfdd8AB26F8609566b101A6E6")
 	e.Transfer("0x808658fcEd5f1a1Bfdd8AB26F8609566b101A6E6", "100")

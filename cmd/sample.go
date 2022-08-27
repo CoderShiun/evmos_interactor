@@ -19,7 +19,8 @@ const (
 
 var s contract.Sample
 
-// sampleCmd represents the sample command
+// sampleCmd represents the sample command,
+// it provides additional functions for the sample smart contract.
 var sampleCmd = &cobra.Command{
 	Use:   "sample",
 	Short: "sample contract functions",
@@ -40,6 +41,8 @@ var sampleCmd = &cobra.Command{
 	},
 }
 
+// readSampleContractInfo reads the sample contract address from the file,
+// and initializes the sample contract struct.
 func readSampleContractInfo() {
 	data, err := os.ReadFile("./sample.address")
 	if err != nil || len(data) == 0 {

@@ -9,6 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// ercBasic() returns the function name that the user wants to use.
 func ercBasic() string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("function list: ")

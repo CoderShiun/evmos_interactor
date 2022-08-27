@@ -14,9 +14,9 @@ var (
 	cfgFile string
 )
 
-// rootCmd represents the base command when called without any subcommands
+// rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{
-	Use:   "Interactor",
+	Use:   "evmosInteractor",
 	Short: "Testing on evmos chain",
 	Long: `Deploy smart contracts and sand transactions on evmos chain, 
  it based on geth library.`,
@@ -33,6 +33,7 @@ func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
 }
 
+// init initializes the config and sets commands.
 func init() {
 	cobra.OnInitialize(initConfig)
 
@@ -43,6 +44,8 @@ func init() {
 
 	accountCmd.AddCommand(balanceCmd)
 
+	contractCmd.AddCommand(listCmd)
+	contractCmd.AddCommand(deployCmd)
 	contractCmd.AddCommand(erc20Cmd)
 	contractCmd.AddCommand(sampleCmd)
 }
