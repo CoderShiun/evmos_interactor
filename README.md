@@ -1,7 +1,7 @@
 A CLI tool that can deploy smart contracts and call smart contract functions on the evmos chain.
 
-There are two default smart contracts, sample.sol and erc20.sol. You should first ensure your evmos local evmos test network is running in 
---keyring-backend=test mode, and have mykey.info file under the keyring-test folder.
+There are two default smart contracts, sample.sol and erc20.sol. 
+You should first ensure your evmos local evmos test network is running in --keyring-backend=test mode, and have mykey.info file under the keyring-test folder.
 
 Use $go install to simply install the tool. If you do not want to install it, use $go run main.go instead.
 
