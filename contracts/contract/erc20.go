@@ -17,8 +17,8 @@ type ERC20 struct {
 	ContractAddress  common.Address
 }
 
-// DeployContract deploys the erc20 smart contract.
-func (e *ERC20) DeployContract() {
+// Deploy deploys the erc20 smart contract.
+func (e *ERC20) Deploy() {
 	address, tx, instance, err := erc20.DeployContracts(e.User.GetAuth(), e.User.Cli)
 	if err != nil {
 		log.Fatal(err)

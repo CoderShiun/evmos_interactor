@@ -1,13 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
-
-	homedir "github.com/mitchellh/go-homedir"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var (
@@ -21,10 +15,10 @@ var rootCmd = &cobra.Command{
 	Long: `Deploy smart contracts and sand transactions on evmos chain, 
  it based on geth library.`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if v, err := cmd.Flags().GetBool("debug"); v || err != nil {
+		/*if v, err := cmd.Flags().GetBool("debug"); v || err != nil {
 			fmt.Println("Setting debug level")
 			log.SetLevel(log.DebugLevel)
-		}
+		}*/
 	},
 }
 
@@ -35,10 +29,10 @@ func Execute() {
 
 // init initializes the config and sets commands.
 func init() {
-	cobra.OnInitialize(initConfig)
+	//cobra.OnInitialize(initConfig)
+	//rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.Evmos.yaml)")
+	//rootCmd.PersistentFlags().BoolP("debug", "d", false, "Enable debug mode")
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.Evmos.yaml)")
-	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Enable debug mode")
 	rootCmd.AddCommand(contractCmd)
 	rootCmd.AddCommand(accountCmd)
 
@@ -51,7 +45,7 @@ func init() {
 }
 
 // initConfig reads in config file and ENV variables if set.
-func initConfig() {
+/*func initConfig() {
 	if cfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
@@ -71,4 +65,4 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
-}
+}*/

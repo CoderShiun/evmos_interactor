@@ -16,8 +16,8 @@ type Sample struct {
 	ContractAddress  common.Address
 }
 
-// DeployContract deploys the sample smart contract.
-func (s *Sample) DeployContract() {
+// Deploy deploys the sample smart contract.
+func (s *Sample) Deploy() {
 	input := "1.0"
 	address, tx, instance, err := sample.DeployContracts(s.User.GetAuth(), s.User.Cli, input)
 	if err != nil {

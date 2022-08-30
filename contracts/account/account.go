@@ -82,8 +82,8 @@ func (u *User) GetAuth() *bind.TransactOpts {
 		fmt.Println("err tx: ", err)
 	}
 	auth.Nonce = big.NewInt(int64(u.GetNonce()))
-	auth.Value = big.NewInt(0)      // in wei
-	auth.GasLimit = uint64(3000000) // in units
+	auth.Value = big.NewInt(0) // in wei
+	auth.GasLimit = uint64(3000000)
 	auth.GasPrice = u.GetGasPrice()
 
 	return auth

@@ -33,7 +33,7 @@ func TestDeployContract(t *testing.T) {
 
 	e.User = u
 
-	e.DeployContract()
+	e.Deploy()
 
 	cmd := exec.Command("rm", "erc20.address")
 	err = cmd.Run()

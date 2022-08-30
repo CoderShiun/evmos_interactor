@@ -33,13 +33,13 @@ var deployCmd = &cobra.Command{
 				erc20 := contract.ERC20{
 					User: *user,
 				}
-				erc20.DeployContract()
+				erc20.Deploy()
 
 			case Sample:
 				sample := contract.Sample{
 					User: *user,
 				}
-				sample.DeployContract()
+				sample.Deploy()
 
 			default:
 				fmt.Println(fmt.Sprintf("%v is not a correct name"))
