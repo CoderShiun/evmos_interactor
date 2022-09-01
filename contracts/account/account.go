@@ -3,16 +3,17 @@ package account
 import (
 	"context"
 	"crypto/ecdsa"
+	"evmosInteractor/utils"
 	"fmt"
-	"math"
-	"math/big"
-	"os/exec"
-
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
+	"math"
+	"math/big"
+	"os/exec"
 )
 
 type User struct {
@@ -25,14 +26,15 @@ type User struct {
 func NewUser() *User {
 	client, err := ethclient.Dial("http://localhost:8545")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
+
 	data, err := exec.Command("evmosd", "keys", "unsafe-export-eth-key", "mykey", "--keyring-backend", "test").Output()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	privateKey, address := GetPriAndAddr(string(data)[:len(string(data))-1])
+	privateKey, address := getPriAndAddr(string(data)[:len(string(data))-1])
 
 	return &User{
 		Cli:  client,
@@ -110,8 +112,8 @@ func VerifyPrivateKey(pri string, addr common.Address) (*ecdsa.PrivateKey, bool)
 	return nil, false
 }
 
-// GetPriAndAddr returns the private key in *ecdsa.PrivateKy form and address from the given private key.
-func GetPriAndAddr(pri string) (*ecdsa.PrivateKey, common.Address) {
+// getPriAndAddr returns the private key in *ecdsa.PrivateKy form and address from the given private key.
+func getPriAndAddr(pri string) (*ecdsa.PrivateKey, common.Address) {
 	private, err := crypto.HexToECDSA(pri)
 	if err != nil {
 		log.Fatal(err)
@@ -123,4 +125,39 @@ func GetPriAndAddr(pri string) (*ecdsa.PrivateKey, common.Address) {
 	}
 
 	return private, crypto.PubkeyToAddress(*publicKeyECDSA)
+}
+
+//
+func (u *User) SendEVMOS(amount string, to string) {
+	value := utils.GetBigInt(amount)
+	addr := common.HexToAddress(to)
+
+	chainID, err := u.Cli.NetworkID(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	tx := types.NewTx(&types.LegacyTx{
+		Nonce:    u.GetNonce(),
+		GasPrice: u.GetGasPrice(),
+		Gas:      300000,
+		To:       &addr,
+		Value:    value,
+		Data:     common.Hex2Bytes("0x"),
+		V:        nil,
+		R:        nil,
+		S:        nil,
+	})
+
+	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), u.Pri)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = u.Cli.SendTransaction(context.Background(), signedTx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("send tx hash: ", signedTx.Hash().Hex())
 }
