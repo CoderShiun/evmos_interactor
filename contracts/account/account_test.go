@@ -38,7 +38,7 @@ func TestVerifyPrivateKey(t *testing.T) {
 func TestGetPriAndAddr(t *testing.T) {
 	Convey("GetPriAndAddr", t, func() {
 		Convey("GetPriAndAddr return private key and address", func() {
-			pri, addr := getPriAndAddr("03c69f08909e9e75ef1b723d0a53bdcce946f04a9adcebc5c81b96c67e0587aa")
+			pri, addr := GetPriAndAddr("03c69f08909e9e75ef1b723d0a53bdcce946f04a9adcebc5c81b96c67e0587aa")
 
 			Convey("When we convert them to a readable(string) value", func() {
 				pri2 := hexutil.Encode(crypto.FromECDSA(pri))[2:]
@@ -54,7 +54,7 @@ func TestGetPriAndAddr(t *testing.T) {
 		})
 
 		Convey("should not return empty results", func() {
-			pri, addr := getPriAndAddr("6e4d2a625ed1aeaa8dbedc8d4b47c069406d3aaa4c61b44803f7158711be44b7")
+			pri, addr := GetPriAndAddr("6e4d2a625ed1aeaa8dbedc8d4b47c069406d3aaa4c61b44803f7158711be44b7")
 			So(pri, ShouldNotBeEmpty)
 			So(addr, ShouldNotBeEmpty)
 		})

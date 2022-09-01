@@ -34,7 +34,7 @@ func NewUser() *User {
 		log.Fatal(err)
 	}
 
-	privateKey, address := getPriAndAddr(string(data)[:len(string(data))-1])
+	privateKey, address := GetPriAndAddr(string(data)[:len(string(data))-1])
 
 	return &User{
 		Cli:  client,
@@ -112,8 +112,8 @@ func VerifyPrivateKey(pri string, addr common.Address) (*ecdsa.PrivateKey, bool)
 	return nil, false
 }
 
-// getPriAndAddr returns the private key in *ecdsa.PrivateKy form and address from the given private key.
-func getPriAndAddr(pri string) (*ecdsa.PrivateKey, common.Address) {
+// GetPriAndAddr returns the private key in *ecdsa.PrivateKy form and address from the given private key.
+func GetPriAndAddr(pri string) (*ecdsa.PrivateKey, common.Address) {
 	private, err := crypto.HexToECDSA(pri)
 	if err != nil {
 		log.Fatal(err)

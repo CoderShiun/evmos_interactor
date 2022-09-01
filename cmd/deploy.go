@@ -44,8 +44,7 @@ var deployCmd = &cobra.Command{
 				//sample.Deploy()
 
 			default:
-				fmt.Println(fmt.Sprintf("%v is not a correct name"))
-				return
+				fmt.Println(fmt.Sprintf("%v is not a valid contract name", v))
 			}
 		}
 	},
