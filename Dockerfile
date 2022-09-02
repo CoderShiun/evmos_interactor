@@ -2,7 +2,9 @@ FROM golang:1.18-alpine
 
 WORKDIR /home
 
-COPY evmos.sh /home/tc_command.sh
+RUN apk add build-base
+
+COPY evmos.sh /home/evmos.sh
 
 RUN chmod 777 /home/evmos.sh
 
