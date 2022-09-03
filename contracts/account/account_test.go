@@ -2,13 +2,17 @@ package account
 
 import (
 	"crypto/ecdsa"
+	"evmosInteractor/keys"
 	"testing"
+	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 	. "github.com/smartystreets/goconvey/convey"
 )
+
+var user = NewUser()
 
 func TestVerifyPrivateKey(t *testing.T) {
 	testCases := []struct {
@@ -57,6 +61,45 @@ func TestGetPriAndAddr(t *testing.T) {
 			pri, addr := GetPriAndAddr("6e4d2a625ed1aeaa8dbedc8d4b47c069406d3aaa4c61b44803f7158711be44b7")
 			So(pri, ShouldNotBeEmpty)
 			So(addr, ShouldNotBeEmpty)
+		})
+	})
+}
+
+func TestGetBalance(t *testing.T) {
+	Convey("GetPriAndAddr", t, func() {
+		Convey("Result should not be 0", func() {
+			balance := user.GetBalance()
+			So(balance, ShouldNotEqual, 0)
+		})
+	})
+}
+
+func TestGetBalanceOf(t *testing.T) {
+	Convey("GetBalanceOf", t, func() {
+		Convey("Get balance from mykey, amount should be the same of GetBalance function", func() {
+			So(user.GetBalanceOf(user.Addr.Hex()).String(), ShouldEqual, user.GetBalance().String())
+		})
+	})
+}
+
+func TestSendEVMOS(t *testing.T) {
+	Convey("SendEVMOS", t, func() {
+		Convey("Generate a new random address", func() {
+			newAddr := keys.GetNewAccount()
+			So(newAddr, ShouldNotEqual, user.Addr.Hex())
+
+			Convey("Send token to new account, mykey balance should be reduced", func() {
+				balance1, _ := user.GetBalance().Int64()
+				user.SendEVMOS(newAddr, "1000000000000000000")
+				time.Sleep(2 * time.Second)
+				balance2, _ := user.GetBalance().Int64()
+				So(balance1-1, ShouldEqual, balance2)
+
+				Convey("Get balance from new account, see if it receives correct amount of tokens", func() {
+					balance, _ := user.GetBalanceOf(newAddr).Int64()
+					So(balance, ShouldEqual, 1)
+				})
+			})
 		})
 	})
 }

@@ -3,16 +3,19 @@ package contract
 import (
 	"evmosInteractor/contracts/account"
 	"evmosInteractor/contracts/erc20"
+	"evmosInteractor/logger"
 	"evmosInteractor/utils"
 	"fmt"
+	"math/big"
 	"os"
+	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	log "github.com/sirupsen/logrus"
 )
 
 type ERC20 struct {
-	User             account.User
+	User             account.UserStruct
 	ContractInstance *erc20.Contracts
 	ContractAddress  common.Address
 }
@@ -34,6 +37,16 @@ func (e *ERC20) Deploy() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	txData := logger.Transaction{
+		ContractAddress: e.ContractAddress.Hex(),
+		From:            e.User.Addr.Hex(),
+		To:              e.ContractAddress.Hex(),
+		TxHash:          tx.Hash().Hex(),
+		Time:            time.Now().UTC(),
+	}
+
+	txData.UploadIPFS("erc20", "deploy")
 }
 
 // GetContractInstance returns the erc20 smart contract instance.
@@ -47,33 +60,33 @@ func (e *ERC20) GetContractInstance(contractAddress common.Address) *erc20.Contr
 }
 
 // GetTotalSupply returns the total supply of the erc20 token.
-func (e *ERC20) GetTotalSupply() {
+func (e *ERC20) GetTotalSupply() *big.Int {
 	total, err := e.ContractInstance.TotalSupply(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("total supply: ", total)
+	return total
 }
 
 // GetDecimals returns the decimals of the erc20 smart contract.
-func (e *ERC20) GetDecimals() {
+func (e *ERC20) GetDecimals() uint8 {
 	deci, err := e.ContractInstance.Decimals(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("decimals: ", deci)
+	return deci
 }
 
 // BalanceOf returns the balance of the erc20 smart contract account.
-func (e *ERC20) BalanceOf(addr common.Address) {
+func (e *ERC20) BalanceOf(addr common.Address) *big.Int {
 	balance, err := e.ContractInstance.BalanceOf(nil, addr)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("erc20 tokens balance: ", balance)
+	return balance
 }
 
 // Mint creates amount of new erc20 tokens, it increases the total supply.
@@ -84,6 +97,16 @@ func (e *ERC20) Mint(amount string) {
 	}
 
 	fmt.Println("mint token successful, tx: ", tx.Hash())
+
+	txData := logger.Transaction{
+		ContractAddress: e.ContractAddress.Hex(),
+		From:            e.User.Addr.Hex(),
+		To:              e.ContractAddress.Hex(),
+		TxHash:          tx.Hash().Hex(),
+		Time:            time.Now().UTC(),
+	}
+
+	txData.UploadIPFS("erc20", "mint")
 }
 
 // Burn burns amount of erc20 tokens, it decreases the total supply.
@@ -94,6 +117,16 @@ func (e *ERC20) Burn(amount string) {
 	}
 
 	fmt.Println("burn token successful, tx: ", tx.Hash())
+
+	txData := logger.Transaction{
+		ContractAddress: e.ContractAddress.Hex(),
+		From:            e.User.Addr.Hex(),
+		To:              e.ContractAddress.Hex(),
+		TxHash:          tx.Hash().Hex(),
+		Time:            time.Now().UTC(),
+	}
+
+	txData.UploadIPFS("erc20", "burn")
 }
 
 // Transfer transfers amount of erc20 tokens to another account.
@@ -104,4 +137,14 @@ func (e *ERC20) Transfer(addr string, amount string) {
 	}
 
 	fmt.Println("send tx successful, tx: ", tx.Hash())
+
+	txData := logger.Transaction{
+		ContractAddress: e.ContractAddress.Hex(),
+		From:            e.User.Addr.Hex(),
+		To:              addr,
+		TxHash:          tx.Hash().Hex(),
+		Time:            time.Now().UTC(),
+	}
+
+	txData.UploadIPFS("erc20", "transfer")
 }

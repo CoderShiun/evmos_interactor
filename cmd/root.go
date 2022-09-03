@@ -1,6 +1,12 @@
 package cmd
 
 import (
+	"context"
+	"evmosInteractor/contracts/account"
+	"evmosInteractor/logger"
+
+	shell "github.com/ipfs/go-ipfs-api"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +19,7 @@ var rootCmd = &cobra.Command{
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		/*if v, err := cmd.Flags().GetBool("debug"); v || err != nil {
 			fmt.Println("Setting debug level")
-			log.SetLevel(log.DebugLevel)
+			logger.SetLevel(logger.DebugLevel)
 		}*/
 	},
 }
@@ -23,15 +29,45 @@ func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
 }
 
-// init initializes the config and sets commands.
+// init initializes public variables and sets commands.
 func init() {
+	account.User = account.NewUser()
+	initIPFS()
+
 	rootCmd.AddCommand(contractCmd)
 	rootCmd.AddCommand(accountCmd)
 
 	accountCmd.AddCommand(balanceCmd)
+	accountCmd.AddCommand(balanceOfCmd)
+	accountCmd.AddCommand(transferCmd)
 
 	contractCmd.AddCommand(listCmd)
 	contractCmd.AddCommand(deployCmd)
 	contractCmd.AddCommand(erc20Cmd)
 	contractCmd.AddCommand(sampleCmd)
+}
+
+func initIPFS() {
+	ctx := context.Background()
+
+	state, _ := logger.Sh.FilesStat(ctx, "/evmosInter/eth")
+	if state == nil {
+		err := logger.Sh.FilesMkdir(ctx, "/evmosInter/eth", func(builder *shell.RequestBuilder) error {
+			builder.Option("parents", true)
+			return nil
+		})
+		if err != nil {
+			log.Error(err)
+		}
+
+		err = logger.Sh.FilesMkdir(ctx, "/evmosInter/erc20")
+		if err != nil {
+			log.Error(err)
+		}
+
+		err = logger.Sh.FilesMkdir(ctx, "/evmosInter/sample")
+		if err != nil {
+			log.Error(err)
+		}
+	}
 }

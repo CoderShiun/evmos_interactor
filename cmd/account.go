@@ -3,6 +3,7 @@ package cmd
 import (
 	"evmosInteractor/contracts/account"
 	"fmt"
+
 	"github.com/spf13/cobra"
 )
 
@@ -20,8 +21,28 @@ var balanceCmd = &cobra.Command{
 	Short: "show your account balance",
 	Long:  `it shows the balance from the evmos local test network account`,
 	Run: func(cmd *cobra.Command, args []string) {
-		user := account.NewUser()
-		balance := user.GetBalance()
+		balance := account.User.GetBalance()
 		fmt.Println(fmt.Sprintf("Balance: %v evm", balance))
+	},
+}
+
+// balanceOfCmd returns the evmos balance from a specific account
+var balanceOfCmd = &cobra.Command{
+	Use:   "balanceOf",
+	Short: "get balance from an account",
+	Long:  `get balance from a given account`,
+	Run: func(cmd *cobra.Command, args []string) {
+		balance := account.User.GetBalanceOf(ercGetBalance())
+		fmt.Println(fmt.Sprintf("Balance: %v evm", balance))
+	},
+}
+
+// transferCmd returns the evmos token balance of the account
+var transferCmd = &cobra.Command{
+	Use:   "transfer",
+	Short: "send evmos token",
+	Long:  `send evmos to a specific account`,
+	Run: func(cmd *cobra.Command, args []string) {
+		account.User.SendEVMOS(ercTransfer())
 	},
 }

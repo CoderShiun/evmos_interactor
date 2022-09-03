@@ -33,11 +33,11 @@ var erc20Cmd = &cobra.Command{
 
 		switch ercBasic() {
 		case TotalSupply:
-			erc20.GetTotalSupply()
+			fmt.Println("total supply: ", erc20.GetTotalSupply())
 		case Decimals:
-			erc20.GetDecimals()
+			fmt.Println("decimals: ", erc20.GetDecimals())
 		case GetBalance:
-			erc20.BalanceOf(common.HexToAddress(ercGetBalance()))
+			fmt.Println("erc20 tokens balance: ", erc20.BalanceOf(common.HexToAddress(ercGetBalance())))
 		case Mint:
 			erc20.Mint(ercMint())
 		case Burn:

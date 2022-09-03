@@ -3,8 +3,11 @@ package account
 import (
 	"context"
 	"crypto/ecdsa"
+	"evmosInteractor/logger"
 	"evmosInteractor/utils"
 	"fmt"
+	"time"
+
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -16,14 +19,16 @@ import (
 	"os/exec"
 )
 
-type User struct {
+var User *UserStruct
+
+type UserStruct struct {
 	Cli  *ethclient.Client
 	Pri  *ecdsa.PrivateKey
 	Addr common.Address
 }
 
 // NewUser gets the private key of mykey account from evmos, and sets the user.
-func NewUser() *User {
+func NewUser() *UserStruct {
 	client, err := ethclient.Dial("http://localhost:8545")
 	if err != nil {
 		log.Fatal(err)
@@ -36,7 +41,7 @@ func NewUser() *User {
 
 	privateKey, address := GetPriAndAddr(string(data)[:len(string(data))-1])
 
-	return &User{
+	return &UserStruct{
 		Cli:  client,
 		Pri:  privateKey,
 		Addr: address,
@@ -44,7 +49,7 @@ func NewUser() *User {
 }
 
 // GetBalance gets the balance of the account.
-func (u *User) GetBalance() *big.Float {
+func (u *UserStruct) GetBalance() *big.Float {
 	balance, err := u.Cli.BalanceAt(context.Background(), u.Addr, nil)
 	if err != nil {
 		log.Fatal(err)
@@ -52,13 +57,27 @@ func (u *User) GetBalance() *big.Float {
 
 	fbalance := new(big.Float)
 	fbalance.SetString(balance.String())
-	ethValue := new(big.Float).Quo(fbalance, big.NewFloat(math.Pow10(20)))
+	ethValue := new(big.Float).Quo(fbalance, big.NewFloat(math.Pow10(18)))
+
+	return ethValue
+}
+
+// GetBalanceOf returns balance from a given account
+func (u *UserStruct) GetBalanceOf(addr string) *big.Float {
+	balance, err := u.Cli.BalanceAt(context.Background(), common.HexToAddress(addr), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fbalance := new(big.Float)
+	fbalance.SetString(balance.String())
+	ethValue := new(big.Float).Quo(fbalance, big.NewFloat(math.Pow10(18)))
 
 	return ethValue
 }
 
 // GetNonce gets the nonce of the account, each transaction should be different.
-func (u *User) GetNonce() uint64 {
+func (u *UserStruct) GetNonce() uint64 {
 	nonce, err := u.Cli.PendingNonceAt(context.Background(), u.Addr)
 	if err != nil {
 		log.Fatal(err)
@@ -68,7 +87,7 @@ func (u *User) GetNonce() uint64 {
 }
 
 // GetGasPrice returns suggest gas price.
-func (u *User) GetGasPrice() *big.Int {
+func (u *UserStruct) GetGasPrice() *big.Int {
 	gasPrice, err := u.Cli.SuggestGasPrice(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -78,7 +97,7 @@ func (u *User) GetGasPrice() *big.Int {
 }
 
 // GetAuth sets the details of the transaction.
-func (u *User) GetAuth() *bind.TransactOpts {
+func (u *UserStruct) GetAuth() *bind.TransactOpts {
 	auth, err := bind.NewKeyedTransactorWithChainID(u.Pri, big.NewInt(9000))
 	if err != nil {
 		fmt.Println("err tx: ", err)
@@ -127,8 +146,8 @@ func GetPriAndAddr(pri string) (*ecdsa.PrivateKey, common.Address) {
 	return private, crypto.PubkeyToAddress(*publicKeyECDSA)
 }
 
-//
-func (u *User) SendEVMOS(amount string, to string) {
+// SendEVMOS sends evmos from mykey to another account
+func (u *UserStruct) SendEVMOS(to string, amount string) {
 	value := utils.GetBigInt(amount)
 	addr := common.HexToAddress(to)
 
@@ -160,4 +179,13 @@ func (u *User) SendEVMOS(amount string, to string) {
 	}
 
 	fmt.Println("send tx hash: ", signedTx.Hash().Hex())
+
+	txData := logger.Transaction{
+		From:   u.Addr.Hex(),
+		To:     to,
+		TxHash: signedTx.Hash().Hex(),
+		Time:   time.Now().UTC(),
+	}
+
+	txData.UploadIPFS("eth", "transfer")
 }

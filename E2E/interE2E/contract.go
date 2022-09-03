@@ -15,7 +15,7 @@ import (
 var (
 	s    contract.Sample
 	e    contract.ERC20
-	user *account.User
+	user *account.UserStruct
 )
 
 // contractList get the account list from evmosInteractor.

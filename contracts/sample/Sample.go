@@ -76,7 +76,7 @@ type ContractsTransactor struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// ContractsFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
+// ContractsFilterer is an auto generated logger filtering Go binding around an Ethereum contract events.
 type ContractsFilterer struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
@@ -145,7 +145,7 @@ func NewContractsTransactor(address common.Address, transactor bind.ContractTran
 	return &ContractsTransactor{contract: contract}, nil
 }
 
-// NewContractsFilterer creates a new log filterer instance of Contracts, bound to a specific deployed contract.
+// NewContractsFilterer creates a new logger filterer instance of Contracts, bound to a specific deployed contract.
 func NewContractsFilterer(address common.Address, filterer bind.ContractFilterer) (*ContractsFilterer, error) {
 	contract, err := bindContracts(address, nil, nil, filterer)
 	if err != nil {
@@ -286,7 +286,7 @@ func (_Contracts *ContractsTransactorSession) SetItem(key [32]byte, value [32]by
 
 // ContractsItemSetIterator is returned from FilterItemSet and is used to iterate over the raw logs and unpacked data for ItemSet events raised by the Contracts contract.
 type ContractsItemSetIterator struct {
-	Event *ContractsItemSet // Event containing the contract specifics and raw log
+	Event *ContractsItemSet // Event containing the contract specifics and raw logger
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -358,7 +358,7 @@ type ContractsItemSet struct {
 	Raw   types.Log // Blockchain specific contextual infos
 }
 
-// FilterItemSet is a free log retrieval operation binding the contract event 0xe79e73da417710ae99aa2088575580a60415d359acfad9cdd3382d59c80281d4.
+// FilterItemSet is a free logger retrieval operation binding the contract event 0xe79e73da417710ae99aa2088575580a60415d359acfad9cdd3382d59c80281d4.
 //
 // Solidity: event ItemSet(bytes32 key, bytes32 value)
 func (_Contracts *ContractsFilterer) FilterItemSet(opts *bind.FilterOpts) (*ContractsItemSetIterator, error) {
@@ -370,7 +370,7 @@ func (_Contracts *ContractsFilterer) FilterItemSet(opts *bind.FilterOpts) (*Cont
 	return &ContractsItemSetIterator{contract: _Contracts.contract, event: "ItemSet", logs: logs, sub: sub}, nil
 }
 
-// WatchItemSet is a free log subscription operation binding the contract event 0xe79e73da417710ae99aa2088575580a60415d359acfad9cdd3382d59c80281d4.
+// WatchItemSet is a free logger subscription operation binding the contract event 0xe79e73da417710ae99aa2088575580a60415d359acfad9cdd3382d59c80281d4.
 //
 // Solidity: event ItemSet(bytes32 key, bytes32 value)
 func (_Contracts *ContractsFilterer) WatchItemSet(opts *bind.WatchOpts, sink chan<- *ContractsItemSet) (event.Subscription, error) {
@@ -384,7 +384,7 @@ func (_Contracts *ContractsFilterer) WatchItemSet(opts *bind.WatchOpts, sink cha
 		for {
 			select {
 			case log := <-logs:
-				// New log arrived, parse the event and forward to the user
+				// New logger arrived, parse the event and forward to the user
 				event := new(ContractsItemSet)
 				if err := _Contracts.contract.UnpackLog(event, "ItemSet", log); err != nil {
 					return err
@@ -407,7 +407,7 @@ func (_Contracts *ContractsFilterer) WatchItemSet(opts *bind.WatchOpts, sink cha
 	}), nil
 }
 
-// ParseItemSet is a log parse operation binding the contract event 0xe79e73da417710ae99aa2088575580a60415d359acfad9cdd3382d59c80281d4.
+// ParseItemSet is a logger parse operation binding the contract event 0xe79e73da417710ae99aa2088575580a60415d359acfad9cdd3382d59c80281d4.
 //
 // Solidity: event ItemSet(bytes32 key, bytes32 value)
 func (_Contracts *ContractsFilterer) ParseItemSet(log types.Log) (*ContractsItemSet, error) {

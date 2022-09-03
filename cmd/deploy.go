@@ -24,21 +24,19 @@ var deployCmd = &cobra.Command{
 			fmt.Println("please give a contract name e.g. erc20")
 		}
 
-		user := account.NewUser()
-
 		for _, v := range args {
 			v = strings.ToLower(v)
 			switch v {
 			case ERC20:
 				erc20 := contract.ERC20{
-					User: *user,
+					User: *account.User,
 				}
 				contract.DeployContract(&erc20)
 				//erc20.Deploy()
 
 			case Sample:
 				sample := contract.Sample{
-					User: *user,
+					User: *account.User,
 				}
 				contract.DeployContract(&sample)
 				//sample.Deploy()

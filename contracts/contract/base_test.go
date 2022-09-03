@@ -24,7 +24,7 @@ func TestDeploy(t *testing.T) {
 
 	privateKey, address := account.GetPriAndAddr(string(data)[:len(string(data))-1])
 
-	u := account.User{
+	u := account.UserStruct{
 		Cli:  client,
 		Pri:  privateKey,
 		Addr: address,

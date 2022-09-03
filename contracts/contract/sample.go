@@ -3,15 +3,17 @@ package contract
 import (
 	"evmosInteractor/contracts/account"
 	"evmosInteractor/contracts/sample"
+	"evmosInteractor/logger"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	log "github.com/sirupsen/logrus"
 )
 
 type Sample struct {
-	User             account.User
+	User             account.UserStruct
 	ContractInstance *sample.Contracts
 	ContractAddress  common.Address
 }
@@ -34,6 +36,16 @@ func (s *Sample) Deploy() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	txData := logger.Transaction{
+		ContractAddress: s.ContractAddress.Hex(),
+		From:            s.User.Addr.Hex(),
+		To:              s.ContractAddress.Hex(),
+		TxHash:          tx.Hash().Hex(),
+		Time:            time.Now().UTC(),
+	}
+
+	txData.UploadIPFS("sample", "deploy")
 }
 
 // GetContractInstance returns the sample smart contract instance.
@@ -69,6 +81,16 @@ func (s *Sample) SetItem(itemKey, itemValue string) {
 	}
 
 	fmt.Println(fmt.Sprintf("set item tx: %s", tx.Hash().Hex()))
+
+	txData := logger.Transaction{
+		ContractAddress: s.ContractAddress.Hex(),
+		From:            s.User.Addr.Hex(),
+		To:              s.ContractAddress.Hex(),
+		TxHash:          tx.Hash().Hex(),
+		Time:            time.Now().UTC(),
+	}
+
+	txData.UploadIPFS("sample", "set_item")
 }
 
 // GetItems returns the value from the sample smart contract item.

@@ -76,7 +76,7 @@ type ContractsTransactor struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
-// ContractsFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
+// ContractsFilterer is an auto generated logger filtering Go binding around an Ethereum contract events.
 type ContractsFilterer struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
@@ -145,7 +145,7 @@ func NewContractsTransactor(address common.Address, transactor bind.ContractTran
 	return &ContractsTransactor{contract: contract}, nil
 }
 
-// NewContractsFilterer creates a new log filterer instance of Contracts, bound to a specific deployed contract.
+// NewContractsFilterer creates a new logger filterer instance of Contracts, bound to a specific deployed contract.
 func NewContractsFilterer(address common.Address, filterer bind.ContractFilterer) (*ContractsFilterer, error) {
 	contract, err := bindContracts(address, nil, nil, filterer)
 	if err != nil {
@@ -463,7 +463,7 @@ func (_Contracts *ContractsTransactorSession) TransferFrom(sender common.Address
 
 // ContractsApprovalIterator is returned from FilterApproval and is used to iterate over the raw logs and unpacked data for Approval events raised by the Contracts contract.
 type ContractsApprovalIterator struct {
-	Event *ContractsApproval // Event containing the contract specifics and raw log
+	Event *ContractsApproval // Event containing the contract specifics and raw logger
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -536,7 +536,7 @@ type ContractsApproval struct {
 	Raw     types.Log // Blockchain specific contextual infos
 }
 
-// FilterApproval is a free log retrieval operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
+// FilterApproval is a free logger retrieval operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
 //
 // Solidity: event Approval(address indexed owner, address indexed spender, uint256 value)
 func (_Contracts *ContractsFilterer) FilterApproval(opts *bind.FilterOpts, owner []common.Address, spender []common.Address) (*ContractsApprovalIterator, error) {
@@ -557,7 +557,7 @@ func (_Contracts *ContractsFilterer) FilterApproval(opts *bind.FilterOpts, owner
 	return &ContractsApprovalIterator{contract: _Contracts.contract, event: "Approval", logs: logs, sub: sub}, nil
 }
 
-// WatchApproval is a free log subscription operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
+// WatchApproval is a free logger subscription operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
 //
 // Solidity: event Approval(address indexed owner, address indexed spender, uint256 value)
 func (_Contracts *ContractsFilterer) WatchApproval(opts *bind.WatchOpts, sink chan<- *ContractsApproval, owner []common.Address, spender []common.Address) (event.Subscription, error) {
@@ -580,7 +580,7 @@ func (_Contracts *ContractsFilterer) WatchApproval(opts *bind.WatchOpts, sink ch
 		for {
 			select {
 			case log := <-logs:
-				// New log arrived, parse the event and forward to the user
+				// New logger arrived, parse the event and forward to the user
 				event := new(ContractsApproval)
 				if err := _Contracts.contract.UnpackLog(event, "Approval", log); err != nil {
 					return err
@@ -603,7 +603,7 @@ func (_Contracts *ContractsFilterer) WatchApproval(opts *bind.WatchOpts, sink ch
 	}), nil
 }
 
-// ParseApproval is a log parse operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
+// ParseApproval is a logger parse operation binding the contract event 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925.
 //
 // Solidity: event Approval(address indexed owner, address indexed spender, uint256 value)
 func (_Contracts *ContractsFilterer) ParseApproval(log types.Log) (*ContractsApproval, error) {
@@ -617,7 +617,7 @@ func (_Contracts *ContractsFilterer) ParseApproval(log types.Log) (*ContractsApp
 
 // ContractsTransferIterator is returned from FilterTransfer and is used to iterate over the raw logs and unpacked data for Transfer events raised by the Contracts contract.
 type ContractsTransferIterator struct {
-	Event *ContractsTransfer // Event containing the contract specifics and raw log
+	Event *ContractsTransfer // Event containing the contract specifics and raw logger
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -690,7 +690,7 @@ type ContractsTransfer struct {
 	Raw   types.Log // Blockchain specific contextual infos
 }
 
-// FilterTransfer is a free log retrieval operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
+// FilterTransfer is a free logger retrieval operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
 //
 // Solidity: event Transfer(address indexed from, address indexed to, uint256 value)
 func (_Contracts *ContractsFilterer) FilterTransfer(opts *bind.FilterOpts, from []common.Address, to []common.Address) (*ContractsTransferIterator, error) {
@@ -711,7 +711,7 @@ func (_Contracts *ContractsFilterer) FilterTransfer(opts *bind.FilterOpts, from 
 	return &ContractsTransferIterator{contract: _Contracts.contract, event: "Transfer", logs: logs, sub: sub}, nil
 }
 
-// WatchTransfer is a free log subscription operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
+// WatchTransfer is a free logger subscription operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
 //
 // Solidity: event Transfer(address indexed from, address indexed to, uint256 value)
 func (_Contracts *ContractsFilterer) WatchTransfer(opts *bind.WatchOpts, sink chan<- *ContractsTransfer, from []common.Address, to []common.Address) (event.Subscription, error) {
@@ -734,7 +734,7 @@ func (_Contracts *ContractsFilterer) WatchTransfer(opts *bind.WatchOpts, sink ch
 		for {
 			select {
 			case log := <-logs:
-				// New log arrived, parse the event and forward to the user
+				// New logger arrived, parse the event and forward to the user
 				event := new(ContractsTransfer)
 				if err := _Contracts.contract.UnpackLog(event, "Transfer", log); err != nil {
 					return err
@@ -757,7 +757,7 @@ func (_Contracts *ContractsFilterer) WatchTransfer(opts *bind.WatchOpts, sink ch
 	}), nil
 }
 
-// ParseTransfer is a log parse operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
+// ParseTransfer is a logger parse operation binding the contract event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef.
 //
 // Solidity: event Transfer(address indexed from, address indexed to, uint256 value)
 func (_Contracts *ContractsFilterer) ParseTransfer(log types.Log) (*ContractsTransfer, error) {

@@ -9,42 +9,40 @@ import (
 	"os"
 
 	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
-// GetNewKey shows a new key pair.
-func GetNewKey() {
+// GetNewAccount returns a new account.
+func GetNewAccount() string {
 	privateKey, err := crypto.GenerateKey()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("private: ", privateKey)
+	//fmt.Println("private: ", privateKey)
 
 	// convert to byte array
-	privateKeyBytes := crypto.FromECDSA(privateKey)
-	fmt.Println("private Byte: ", privateKeyBytes)
+	//privateKeyBytes := crypto.FromECDSA(privateKey)
+	//fmt.Println("private Byte: ", privateKeyBytes)
 
 	// remove 0x
-	fmt.Println("private remove 0x: ", hexutil.Encode(privateKeyBytes)[2:])
+	//fmt.Println("private remove 0x: ", hexutil.Encode(privateKeyBytes)[2:])
 
 	publicKey := privateKey.Public()
-	fmt.Println("public: ", publicKey)
+	//fmt.Println("public: ", publicKey)
 
 	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
 	if !ok {
 		log.Fatal("cannot assert type: publicKey is not of type *ecdsa.PublicKey")
 	}
-	fmt.Println("publicKeyECDSA: ", publicKey)
+	//fmt.Println("publicKeyECDSA: ", publicKey)
 
-	publicKeyBytes := crypto.FromECDSAPub(publicKeyECDSA)
-	fmt.Println("publicBytes to string: ", string(publicKeyBytes))
+	//publicKeyBytes := crypto.FromECDSAPub(publicKeyECDSA)
+	//fmt.Println("publicBytes to string: ", string(publicKeyBytes))
 	// remove 0x04
-	fmt.Println(hexutil.Encode(publicKeyBytes)[4:])
+	//fmt.Println(hexutil.Encode(publicKeyBytes)[4:])
 
 	// from public key to address
-	address := crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
-	fmt.Println("address: ", address)
+	return crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
 }
 
 // KeyStore is a keystore which can be used to store and retrieve key pairs.
