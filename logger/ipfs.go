@@ -24,7 +24,7 @@ type Transaction struct {
 func (t *Transaction) UploadIPFS(txType string, function string) *shell.FilesStatObject {
 	ctx := context.Background()
 
-	fileName := fmt.Sprintf("/evmosInter/%v/%v-%v", txType, function, time.Now().UTC().String())
+	fileName := fmt.Sprintf("/evmosInter/%v/%v-%v", txType, function, time.Now().UTC())
 
 	err := Sh.FilesWrite(
 		ctx,

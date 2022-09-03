@@ -21,16 +21,15 @@ func TestUploadIPFS(t *testing.T) {
 			}
 
 			fileState := tx.UploadIPFS("eth", "test")
+			So(fileState.Type, ShouldEqual, "file")
+			So(fileState.Size, ShouldBeGreaterThan, 0)
 
 			Convey("Get file back from IPFS", func() {
 				//ctx := context.Background()
 
 				time.Sleep(2 * time.Second)
 
-				/*file, err := Sh.FilesRead(ctx, fmt.Sprintf("/evmosInter/%v/%v-%v", "eth", "test", now.String()))
-				if err != nil {
-					t.Fatal(err)
-				}*/
+				txByte := marshalStruct(tx)
 
 				cat, err := Sh.Cat(fileState.Hash)
 				if err != nil {
@@ -38,7 +37,9 @@ func TestUploadIPFS(t *testing.T) {
 				}
 				defer cat.Close()
 
-				content := make([]byte, 2048)
+				content := make([]byte, len(txByte))
+				time.Sleep(1 * time.Second)
+
 				_, err = cat.Read(content)
 				if err != nil {
 					t.Fatal(err)
