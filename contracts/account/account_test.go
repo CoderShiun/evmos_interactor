@@ -41,7 +41,7 @@ func TestVerifyPrivateKey(t *testing.T) {
 
 func TestGetPriAndAddr(t *testing.T) {
 	Convey("GetPriAndAddr", t, func() {
-		Convey("GetPriAndAddr return private key and address", func() {
+		Convey("Given a new private key and address from GetPriAndAddr", func() {
 			pri, addr := GetPriAndAddr("03c69f08909e9e75ef1b723d0a53bdcce946f04a9adcebc5c81b96c67e0587aa")
 
 			Convey("When we convert them to a readable(string) value", func() {
@@ -50,7 +50,7 @@ func TestGetPriAndAddr(t *testing.T) {
 				publicKeyECDSA := publicKey.(*ecdsa.PublicKey)
 				addr2 := crypto.PubkeyToAddress(*publicKeyECDSA)
 
-				Convey("Then the results should be the same.", func() {
+				Convey("Then the results should be the same", func() {
 					So("03c69f08909e9e75ef1b723d0a53bdcce946f04a9adcebc5c81b96c67e0587aa", ShouldEqual, pri2)
 					So(addr.Hex(), ShouldEqual, addr2.Hex())
 				})
@@ -84,18 +84,18 @@ func TestGetBalanceOf(t *testing.T) {
 
 func TestSendEVMOS(t *testing.T) {
 	Convey("SendEVMOS", t, func() {
-		Convey("Generate a new random address", func() {
+		Convey("Given a new random address", func() {
 			newAddr := keys.GetNewAccount()
 			So(newAddr, ShouldNotEqual, user.Addr.Hex())
 
-			Convey("Send token to new account, mykey balance should be reduced", func() {
+			Convey("When send token to new account, mykey balance should be reduced", func() {
 				balance1, _ := user.GetBalance().Int64()
 				user.SendEVMOS(newAddr, "1000000000000000000")
 				time.Sleep(2 * time.Second)
 				balance2, _ := user.GetBalance().Int64()
 				So(balance1-1, ShouldEqual, balance2)
 
-				Convey("Get balance from new account, see if it receives correct amount of tokens", func() {
+				Convey("Then get balance from new account, see if it receives correct amount of tokens", func() {
 					balance, _ := user.GetBalanceOf(newAddr).Int64()
 					So(balance, ShouldEqual, 1)
 				})

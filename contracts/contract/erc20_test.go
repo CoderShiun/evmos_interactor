@@ -119,11 +119,11 @@ func TestBurn(t *testing.T) {
 
 func TestTransfer(t *testing.T) {
 	Convey("Transfer", t, func() {
-		Convey("Generate a new random address", func() {
+		Convey("Given a new random address", func() {
 			newAddr := keys.GetNewAccount()
 			So(newAddr, ShouldNotEqual, e.User.Addr)
 
-			Convey("Send 1,000 tokens to new address", func() {
+			Convey("When send 1,000 tokens to new address", func() {
 				e.Transfer(newAddr, "1000")
 				time.Sleep(2 * time.Second)
 
@@ -132,7 +132,9 @@ func TestTransfer(t *testing.T) {
 					t.Fatal(err)
 				}
 
-				So(balance.Int64(), ShouldEqual, 1000)
+				Convey("Then the amount should be the same as 1000", func() {
+					So(balance.Int64(), ShouldEqual, 1000)
+				})
 			})
 		})
 	})
