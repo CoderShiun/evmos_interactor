@@ -33,6 +33,8 @@ The goals for this repository are:
 
 ## Requirements
 - [Go v1.18+](https://go.dev/)
+- [Evmos local network](https://docs.evmos.org/developers/localnet/single_node.html)
+- [IPFS node](https://blog.ipfs.tech/1-run-ipfs-on-docker/)
 
 ## Install
 This project simply use Go to install the tool.
