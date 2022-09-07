@@ -109,6 +109,15 @@ TDD and BDD tests: because it is pressed for time, there are few tests in accoun
 ```sh
 $ go run test -v
 ```
+Coverage result:
+```sh
+$ go install github.com/smartystreets/goconvey@latest
+```
+```sh
+$ goconvey --port 8085
+```
+![image](https://github.com/CoderShiun/evmos_interactor/blob/main/img/goconvey01.png)
+
 E2E test - an auto test progress under the evmosInterator/E2E/interE2E. Make sure you have already installed the evmosInteractor tool first. 
 Under the test folder, run:
 ```sh
